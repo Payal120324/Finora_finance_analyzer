@@ -1,0 +1,41 @@
+<<<<<<<
+                      onTap: () => showModalBottomSheet(
+                        context: context,
+                        builder: (_) => Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Lottie.asset('assets/${rule.icon}', width: 120),
+                              const SizedBox(height: 8),
+                              Text(rule.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                              const SizedBox(height: 8),
+                              Text(badge != null
+                                  ? 'Unlocked on ${badge.unlockedAt.toLocal().toString().split(' ')[0]}'
+                                  : 'Not unlocked yet. Check rule in app!'),
+                            ],
+                          ),
+                        ),
+                      ),
+=======
+                      onTap: () => showModalBottomSheet(
+                        context: context,
+                        builder: (_) => SingleChildScrollView(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                height: 120,
+                                child: Lottie.asset('assets/${rule.icon}', width: 120),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(rule.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                              const SizedBox(height: 8),
+                              Text(badge != null
+                                  ? 'Unlocked on ${badge.unlockedAt.toLocal().toString().split(' ')[0]}'
+                                  : 'Not unlocked yet. Check rule in app!'),
+                            ],
+                          ),
+                        ),
+                      ),

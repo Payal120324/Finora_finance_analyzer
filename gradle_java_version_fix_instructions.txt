@@ -1,0 +1,32 @@
+Steps to resolve Gradle build error "Unsupported class file major version 62":
+
+1. Check your current Java version:
+   Open a terminal and run:
+   java -version
+
+2. If the version is 18 or higher (major version 62), you need to install Java 11 or Java 8.
+
+3. Download and install Java 11 JDK:
+   - Go to https://adoptium.net/ or https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
+   - Download and install the JDK for your OS.
+
+4. Set JAVA_HOME environment variable to point to the Java 11 installation:
+   - On Windows:
+     - Open System Properties > Environment Variables
+     - Add or edit JAVA_HOME to the path of your Java 11 JDK installation (e.g., C:\Program Files\Java\jdk-11.x.x)
+     - Add %JAVA_HOME%\bin to your PATH variable if not already present.
+
+5. Restart your IDE or terminal to apply changes.
+
+6. Verify Java version again:
+   java -version
+   It should show Java 11.
+
+7. Clean and rebuild your Flutter project:
+   flutter clean
+   flutter pub get
+   flutter run
+
+8. If you want to use a newer Java version, update Gradle and Android Gradle plugin versions in your project to versions that support Java 18, but downgrading Java is simpler.
+
+This should resolve the "Unsupported class file major version 62" error during Gradle build.

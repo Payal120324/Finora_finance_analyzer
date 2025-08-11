@@ -1,0 +1,63 @@
+=======
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+>>>>>>> REPLACE
+
+<<<<<<< SEARCH
+  Future<Map<String, dynamic>> _buildContextMap() async {
+    // Using dummy values for demonstration
+    return {
+      'totalLogs': 10,
+      'totalDistinctLogDays': 5,
+      'monthsUnderBudget': 2,
+      'billsPaid': 8,
+      'missedBills': 1,
+      'goalsDone': 3,
+      'noSpendDays': 4,
+      'needsPct': 20,
+      'streak': 6,
+      'exports': 1,
+      'tipsUsed': 2,
+      'missionsDone': 7,
+      'badgesUnlockedLast7': 1,
+      'score': 75,
+      'scoreDays90': 60,
+      'referrals': 0,
+      'totalBadgesUnlocked': 5,
+      'budgetUsed': 50,
+    };
+  }
+=======
+  Future<Map<String, dynamic>> _buildContextMap() async {
+    try {
+      final doc = await FirebaseFirestore.instance.collection('users').doc(widget.uid).get();
+      if (!doc.exists) {
+        print('User document does not exist for uid: \${widget.uid}');
+        return {};
+      }
+      final data = doc.data()!;
+      return {
+        'totalLogs': data['totalLogs'] ?? 0,
+        'totalDistinctLogDays': data['totalDistinctLogDays'] ?? 0,
+        'monthsUnderBudget': data['monthsUnderBudget'] ?? 0,
+        'billsPaid': data['billsPaid'] ?? 0,
+        'missedBills': data['missedBills'] ?? 0,
+        'goalsDone': data['goalsDone'] ?? 0,
+        'noSpendDays': data['noSpendDays'] ?? 0,
+        'needsPct': data['needsPct'] ?? 0,
+        'streak': data['streak'] ?? 0,
+        'exports': data['exports'] ?? 0,
+        'tipsUsed': data['tipsUsed'] ?? 0,
+        'missionsDone': data['missionsDone'] ?? 0,
+        'badgesUnlockedLast7': data['badgesUnlockedLast7'] ?? 0,
+        'score': data['score'] ?? 0,
+        'scoreDays90': data['scoreDays90'] ?? 0,
+        'referrals': data['referrals'] ?? 0,
+        'totalBadgesUnlocked': data['totalBadgesUnlocked'] ?? 0,
+        'budgetUsed': data['budgetUsed'] ?? 0,
+      };
+    } catch (e) {
+      print('Error fetching user data from Firestore: \$e');
+      return {};
+    }
+  }
