@@ -99,7 +99,7 @@ class GoalHomePage extends StatelessWidget {
       child: Card(
         elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        shadowColor: isDarkMode ? Colors.black54 : Colors.grey.withOpacity(0.5),
+        shadowColor: isDarkMode ? Colors.black54 : Colors.grey.withValues(alpha: 0.5),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Row(
@@ -110,7 +110,7 @@ class GoalHomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: iconBackground.withOpacity(0.6),
+                      color: iconBackground.withValues(alpha: 0.6),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),

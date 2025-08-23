@@ -9,6 +9,7 @@ class AddGoalScreen extends StatefulWidget {
   const AddGoalScreen({super.key, required this.userId});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddGoalScreenState createState() => _AddGoalScreenState();
 }
 
@@ -52,20 +53,22 @@ class _AddGoalScreenState extends State<AddGoalScreen> with SingleTickerProvider
     });
     try {
       final goals = await SavingGoalService().fetchGoals(widget.userId, completed: false);
-      print('Fetched ${goals.length} active goals');
+     // print('Fetched ${goals.length} active goals');
       setState(() {
         _goals = goals;
         _isLoading = false;
       });
       _animationController.forward(from: 0);
     } catch (e) {
-      print('Error fetching goals: $e');
+      //print('Error fetching goals: $e');
       setState(() {
         _isLoading = false;
       });
+      if(mounted){
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to load goals: $e')),
       );
+      }
     }
   }
 
@@ -137,7 +140,6 @@ class _AddGoalScreenState extends State<AddGoalScreen> with SingleTickerProvider
     // final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
     final isLight = theme.brightness == Brightness.light;
-
     final mediaQuery = MediaQuery.of(context);
     final width = mediaQuery.size.width;
     final height = mediaQuery.size.height;
@@ -152,7 +154,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> with SingleTickerProvider
         title: Text('Add Saving Goal', style: textTheme.titleLarge),
         backgroundColor: Colors.purple,
         elevation: 8,
-        shadowColor: Colors.purpleAccent.withOpacity(0.6),
+        shadowColor: Colors.purpleAccent.withValues(alpha: 0.6),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -196,7 +198,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> with SingleTickerProvider
                         ),
                       ),
                       margin: EdgeInsets.only(bottom: verticalPadding),
-                      shadowColor: Colors.deepPurpleAccent.withOpacity(0.3),
+                      shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.3),
                       child: Padding(
                         padding: EdgeInsets.all(verticalPadding),
                         child: Column(
@@ -271,7 +273,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> with SingleTickerProvider
                                 padding: EdgeInsets.symmetric(horizontal: width * 0.1, vertical: height * 0.02),
                                 textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                 elevation: 8,
-                                shadowColor: Colors.deepPurpleAccent.withOpacity(0.7),
+                                shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.7),
                               ),
                               child: const Text('Save Goal'),
                             ),
@@ -295,7 +297,7 @@ SizedBox(
                             width: 1.5,
                           ),
                         ),
-                        shadowColor: Colors.deepPurpleAccent.withOpacity(0.3),
+                        shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.3),
                         child: Padding(
                           padding: EdgeInsets.all(width * 0.045),
                           child: Column(
@@ -326,7 +328,7 @@ SizedBox(
                                             opacity: _fadeAnimation,
                                             child: ListView.separated(
                                               itemCount: _goals.length,
-                                              separatorBuilder: (context, index) => Divider(color: Colors.deepPurpleAccent.withOpacity(0.3), thickness: 1),
+                                              separatorBuilder: (context, index) => Divider(color: Colors.deepPurpleAccent.withValues(alpha: 0.3), thickness: 1),
                                               itemBuilder: (context, index) {
                                                 final goal = _goals[index];
 final totalMonthsCalc = (goal.targetDate.year - DateTime.now().year) * 12 + (goal.targetDate.month - DateTime.now().month);
@@ -345,7 +347,7 @@ return Card(
     ),
   ),
   elevation: 10,
-  shadowColor: Colors.deepPurpleAccent.withOpacity(0.4),
+  shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.4),
   child: Padding(
     padding: EdgeInsets.all(width * 0.045),
     child: Column(
@@ -373,7 +375,7 @@ Text("Saved Monthly: ₹${(goal.savedSoFar / (DateTime.now().difference(goal.tar
           child: LinearProgressIndicator(
             value: (goal.amount > 0) ? (goal.savedSoFar / goal.amount) : 0.0,
             minHeight: height * 0.02,
-            backgroundColor: Colors.deepPurpleAccent.withOpacity(0.2),
+            backgroundColor: Colors.deepPurpleAccent.withValues(alpha: 0.2),
             valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurpleAccent),
           ),
         ),
@@ -387,6 +389,7 @@ Text("Saved Monthly: ₹${(goal.savedSoFar / (DateTime.now().difference(goal.tar
               onPressed: () async {
                 await SavingGoalService().updateGoalCompleted(widget.userId, goal.id, true);
                 await showDialog(
+                  // ignore: use_build_context_synchronously
                   context: context,
                   builder: (context) => const SuccessDialog(),
                 );

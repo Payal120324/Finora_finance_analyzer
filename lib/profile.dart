@@ -6,7 +6,7 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStateMixin {
@@ -23,6 +23,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
   bool _isEditing = false;
 
   late AnimationController _animationController;
+  // ignore: unused_field
   late Animation<double> _fadeAnimation;
 
   @override
@@ -117,9 +118,11 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
       try {
         final user = FirebaseAuth.instance.currentUser;
         if (user == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('User not logged in')),
-          );
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('User not logged in')),
+            );
+          }
           setState(() {
             _isLoading = false;
           });
@@ -135,21 +138,27 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
           'dateOfBirth': _dateOfBirth?.toIso8601String(),
         }, SetOptions(merge: true));
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile saved successfully')),
-        );
-        setState(() {
-          _isEditing = false; // Switch to view mode after saving
-          _animationController.reverse();
-        });
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Profile saved successfully')),
+          );
+          setState(() {
+            _isEditing = false; // Switch to view mode after saving
+            _animationController.reverse();
+          });
+        }
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save profile: $e')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to save profile: $e')),
+          );
+        }
       } finally {
-        setState(() {
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       }
     }
   }
@@ -355,6 +364,9 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
   }
 
   Widget _buildViewProfile() {
+    final user = FirebaseAuth.instance.currentUser;
+    final email = user?.email ?? 'No email available';
+    
     return ListView(
       children: [
         _buildProfileAvatar(),
@@ -365,6 +377,16 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
           textAlign: TextAlign.center,
         ),
         const Divider(thickness: 2, color: Colors.purple),
+        Card(
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          elevation: 3,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: ListTile(
+            leading: const Icon(Icons.email, color: Colors.purple),
+            title: const Text('Email'),
+            subtitle: Text(email),
+          ),
+        ),
         Card(
           margin: const EdgeInsets.symmetric(vertical: 8),
           elevation: 3,

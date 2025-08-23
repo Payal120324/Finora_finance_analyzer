@@ -160,9 +160,11 @@ class _BillReminderPageState extends State<BillReminderPage> with SingleTickerPr
       _selectedCategory!,
     );
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Bill added and reminders scheduled!')),
-    );
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Bill added and reminders scheduled!')),
+      );
+    }
 
     _nameController.clear();
     _amountController.clear();
@@ -276,10 +278,12 @@ class _BillReminderPageState extends State<BillReminderPage> with SingleTickerPr
       );
     }
 
-    showDialog(
-      context: context,
-      builder: (context) => const SuccessDialog(),
-    );
+    if (mounted) {
+      showDialog(
+        context: context,
+        builder: (context) => const SuccessDialog(),
+      );
+    }
   }
 
   Future<void> _deleteBill(String billId) async {
@@ -297,9 +301,11 @@ class _BillReminderPageState extends State<BillReminderPage> with SingleTickerPr
     AwesomeNotifications().cancel(billId.hashCode + 1);
     AwesomeNotifications().cancel(billId.hashCode + 2);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Bill deleted.')),
-    );
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Bill deleted.')),
+      );
+    }
   }
 
   Future<void> _checkOverdueBills() async {
@@ -419,7 +425,7 @@ class _BillReminderPageState extends State<BillReminderPage> with SingleTickerPr
         title: const Text("Bill Payment Reminders"),
         backgroundColor: Colors.purple,
         elevation: 8,
-        shadowColor: Colors.purpleAccent.withOpacity(0.6),
+        shadowColor: Colors.purpleAccent.withValues(alpha: 0.6),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -470,7 +476,7 @@ class _BillReminderPageState extends State<BillReminderPage> with SingleTickerPr
                             ),
                           ),
                           margin: EdgeInsets.only(bottom: verticalPaddingInner),
-                          shadowColor: Colors.deepPurpleAccent.withOpacity(0.3),
+                          shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.3),
                           child: Padding(
                             padding: EdgeInsets.all(verticalPaddingInner),
                             child: Column(
@@ -556,7 +562,7 @@ class _BillReminderPageState extends State<BillReminderPage> with SingleTickerPr
                                         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                                         textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                         elevation: 8,
-                                        shadowColor: Colors.deepPurpleAccent.withOpacity(0.7),
+                                        shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.7),
                                       ),
                                       child: const Text("Pick Due Date"),
                                     ),
@@ -650,7 +656,7 @@ class _BillReminderPageState extends State<BillReminderPage> with SingleTickerPr
                                         ),
                                         textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                         elevation: 8,
-                                        shadowColor: Colors.deepPurpleAccent.withOpacity(0.7),
+                                        shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.7),
                                       ),
                                     ),
                                   ),
@@ -675,7 +681,7 @@ class _BillReminderPageState extends State<BillReminderPage> with SingleTickerPr
                                 width: 1.5,
                               ),
                             ),
-                            shadowColor: Colors.deepPurpleAccent.withOpacity(0.3),
+                            shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.3),
                             child: Padding(
                               padding: const EdgeInsets.all(18),
                               child: Column(
@@ -741,10 +747,10 @@ class _BillReminderPageState extends State<BillReminderPage> with SingleTickerPr
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(24),
                                                 ),
-                                                shadowColor: Colors.deepPurpleAccent.withOpacity(0.4),
+                                                shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.4),
                                                 child: ListTile(
                                                   leading: CircleAvatar(
-                                                    backgroundColor: _getCategoryColor(bill['category']).withOpacity(0.4),
+                                                    backgroundColor: _getCategoryColor(bill['category']).withValues(alpha: 0.4),
                                                     child: Icon(
                                                       _getCategoryIcon(bill['category']),
                                                       color: _getCategoryColor(bill['category']),

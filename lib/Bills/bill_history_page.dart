@@ -30,13 +30,17 @@ class BillHistoryPage extends StatelessWidget {
           .collection('bills')
           .doc(billId)
           .delete();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bill deleted successfully')),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Bill deleted successfully')),
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to delete bill: $e')),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete bill: $e')),
+        );
+      }
     }
   }
 
@@ -49,8 +53,8 @@ class BillHistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Bill History")),
       body: Builder(
-        builder: (context) {
-          final mediaQuery = MediaQuery.of(context);
+        builder: (builderContext) {
+          final mediaQuery = MediaQuery.of(builderContext);
           final padding = mediaQuery.padding;
           return Padding(
             padding: EdgeInsets.fromLTRB(16, 16, 16, padding.bottom + 16),
@@ -63,7 +67,7 @@ class BillHistoryPage extends StatelessWidget {
                   .orderBy('due_date', descending: true)
                   .limit(30)
                   .snapshots(),
-              builder: (context, snapshot) {
+              builder: (streamContext, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
                 }

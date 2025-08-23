@@ -1,36 +1,33 @@
 import 'package:flutter/material.dart';
-import 'bill_reminder_page.dart';
-import 'bill_history_page.dart';
-import 'bill_analytics_page.dart';
+import 'screens/dashboard_screen.dart';
+import 'screens/badge_gallery_screen.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class MicroChallengeHomePage extends StatefulWidget {
+  final String uid;
+  const MicroChallengeHomePage({super.key, required this.uid});
 
+  @override
+  State<MicroChallengeHomePage> createState() => _MicroChallengeHomePageState();
+}
+
+class _MicroChallengeHomePageState extends State<MicroChallengeHomePage> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Finance Analyzer'),
+        title: const Text('Micro Challenge Hub'),
         centerTitle: true,
-        // Remove backgroundColor to use gradient
+        backgroundColor: isDarkMode ? Colors.teal[700] : Colors.teal,
         elevation: 4,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.purple, Colors.deepPurpleAccent],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-        ),
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: isDarkMode
-                ? [Colors.deepPurple.shade900, Colors.black87]
-                : [Colors.purple.shade100, Colors.white],
+                ? [Colors.teal.shade900, Colors.black87]
+                : [Colors.teal.shade100, Colors.white],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -40,9 +37,9 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
-              "Welcome!",
+              "Welcome to Micro Challenges!",
               style: TextStyle(
-                fontSize: 32,
+                fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 shadows: [
@@ -56,46 +53,29 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              "Manage your bills, track payments, and analyze your spending habits easily.",
+              "Track your progress and earn badges through daily challenges.",
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 color: isDarkMode ? Colors.white70 : Colors.black87,
               ),
             ),
             const SizedBox(height: 30),
-
-            // Manage Bills Card
             _buildNavigationCard(
               context,
-              title: "Manage Bills",
-              subtitle: "Add bills, track due dates, mark paid",
-              icon: Icons.receipt_long,
-              iconBackground: Colors.blueAccent,
-              destination: const BillReminderPage(),
+              title: "Challenge Dashboard",
+              subtitle: "View and complete daily challenges",
+              icon: Icons.assignment,
+              iconBackground: Colors.blue,
+              destination: ChallengesScreen(),
             ),
-
             const SizedBox(height: 20),
-
-            // View Bill History
             _buildNavigationCard(
               context,
-              title: "Bill History",
-              subtitle: "View paid and overdue bills",
-              icon: Icons.history,
-              iconBackground: Colors.orangeAccent,
-              destination: const BillHistoryPage(),
-            ),
-
-            const SizedBox(height: 20),
-
-            // View Analytics
-            _buildNavigationCard(
-              context,
-              title: "Spending Analytics",
-              subtitle: "Pie chart of your bill categories",
-              icon: Icons.pie_chart,
-              iconBackground: Colors.greenAccent,
-              destination: const BillAnalyticsPage(),
+              title: "Badge Gallery",
+              subtitle: "See your earned achievement badges",
+              icon: Icons.emoji_events,
+              iconBackground: Colors.amber,
+              destination: BadgeGalleryScreen(uid: widget.uid),
             ),
           ],
         ),
@@ -110,8 +90,18 @@ class HomePage extends StatelessWidget {
       required Color iconBackground,
       required Widget destination}) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return GestureDetector(
       onTap: () {
+        if (widget.uid.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('User ID is invalid. Please log in again.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return;
+        }
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => destination),
@@ -132,7 +122,6 @@ class HomePage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: iconBackground.withValues(alpha: 0.6),
-
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),

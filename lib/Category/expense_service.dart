@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 class ExpenseService {
   static CollectionReference _expensesCollection(String userId) =>
       FirebaseFirestore.instance.collection('users').doc(userId).collection('expenses');
@@ -18,6 +17,9 @@ class ExpenseService {
         'note': note ?? '',
         'date': Timestamp.fromDate(date),
       });
+      
+      // Trigger karma system after adding expense
+      
       return null; // success
     } catch (e) {
       return e.toString();

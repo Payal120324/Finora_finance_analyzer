@@ -8,6 +8,7 @@ class GoalListScreen extends StatefulWidget {
   const GoalListScreen({super.key, required this.userId});
 
   @override
+  // ignore: library_private_types_in_public_api
   _GoalListScreenState createState() => _GoalListScreenState();
 }
 
@@ -84,7 +85,7 @@ class _GoalListScreenState extends State<GoalListScreen> {
                         SizedBox(height: 4),
                         LinearProgressIndicator(
                           value: progress,
-                          backgroundColor: Colors.deepPurpleAccent.withOpacity(0.2),
+                          backgroundColor: Colors.deepPurpleAccent.withValues(alpha: 0.2),
                           valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurpleAccent),
                           minHeight: 6,
                         ),

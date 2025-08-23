@@ -105,6 +105,7 @@ flutter:
     - assets/Action_Taker.json
     - assets/bill_boss.json
     - assets/budget_beginner.json
+    - assets/celebration.json
     - assets/budget_ninja.json
     - assets/Community_Hero.json
     - assets/consistent.json
@@ -125,6 +126,9 @@ flutter:
     - assets/finance1.json
     - assets/finance2.json
     - assets/finance3.json
+    - assets/challenge.png
+    - assets/reader.json
+    - assets/envelope.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

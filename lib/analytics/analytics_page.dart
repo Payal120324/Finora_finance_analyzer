@@ -25,7 +25,9 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
   DateTime? _selectedDate;
   DateTime? _selectedMonth;
 
+  // ignore: unused_field
   bool _isLoading = true;
+  // ignore: unused_field
   String? _errorMessage;
 
   final List<Color> colors = [
@@ -694,7 +696,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                             ),
                             
                       ),
-                      belowBarData: BarAreaData(show: true, color: Colors.deepPurpleAccent.withOpacity(0.3)),
+                      belowBarData: BarAreaData(show: true, color: Colors.deepPurpleAccent.withValues(alpha: 0.3)),
                     ),
                   ],
                   titlesData: FlTitlesData(

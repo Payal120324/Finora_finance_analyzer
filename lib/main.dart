@@ -41,6 +41,7 @@ class FinanceAnalyzerApp extends StatefulWidget {
   FinanceAnalyzerApp({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _FinanceAnalyzerAppState createState() => _FinanceAnalyzerAppState();
 }
 

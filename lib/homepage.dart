@@ -14,9 +14,9 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'tip/daily_tip_notifier.dart';
 import 'Goal/goal_homepage.dart';
 import 'chatbot/chatbot_screen.dart';
-import 'Karma/karma_homepage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'profile.dart';
+import 'micro-challenge/micro_challenge_homepage.dart';
 
 class AppConstants {
   static const double defaultPadding = 16.0;
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     {'title': 'Bills', 'image': 'assets/bill.png'},
     {'title': 'Chatbot', 'image': 'assets/chatbot.png'},
     {'title': 'Goals', 'image': 'assets/goal.png'},
-    {'title': 'Karma', 'image': 'assets/karma.png'},
+    {'title': 'Challenges', 'image': 'assets/challenge.png'},
   ];
   bool _alertShown = false;
 
@@ -206,7 +206,9 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         _alertShown = false; // reset alert flag if usage below threshold
       }
-    } catch (e) {}
+    } catch (e) {
+   //   print("d");
+    }
   }
 
   void _showBudgetAlert() {
@@ -303,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Card(
           elevation: 6,
           shadowColor:
-              isDark ? Colors.purpleAccent : Colors.grey.withOpacity(0.5),
+              isDark ? Colors.purpleAccent : Colors.grey.withValues(alpha: 0.5),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppConstants.cardRadius),
             side: BorderSide(
@@ -436,11 +438,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 );
-              } else if (feature['title'] == 'Karma') {
+              } else if (feature['title'] == 'Challenges') {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => KarmaHomePage(
+                    builder: (context) => MicroChallengeHomePage(
                       uid: FirebaseAuth.instance.currentUser?.uid ?? '',
                     ),
                   ),
@@ -472,8 +474,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 boxShadow: [
                   BoxShadow(
                     color: isHovering
-                        ? Colors.deepPurple.withOpacity(0.3)
-                        : Colors.deepPurple.withOpacity(0.1),
+                        ? Colors.deepPurple.withValues(alpha: 0.3)
+                        : Colors.deepPurple.withValues(alpha: 0.1),
                     blurRadius: isHovering ? 8 : 4,
                     offset: const Offset(0, 2),
                   ),
@@ -514,7 +516,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 14,
                           ),
                           textAlign: TextAlign.center,
-                          maxLines: 1,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
@@ -625,7 +628,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             'Finance Analyzer User',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.85),
+                              color: Colors.white.withValues(alpha: 0.85),
                               fontSize: 15,
                             ),
                           ),
@@ -703,15 +706,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                           ),
                         );
-                      }
-                      else if (feature['title'] == 'Karma') {
+                      } else if (feature['title'] == 'Challenges') {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder:
-                                (context) => KarmaHomePage(uid:
+                                (context) => MicroChallengeHomePage(
+                                  uid:
                                       FirebaseAuth.instance.currentUser?.uid ??
-                                      '',),
+                                      '',
+                                ),
                           ),
                         );
                       }
@@ -732,6 +736,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () async {
                     Navigator.pop(context);
                     await widget.authService.signOut();
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder:
@@ -862,7 +867,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      final screenWidth = MediaQuery.of(context).size.width;
+                     // final screenWidth = MediaQuery.of(context).size.width;
                       final crossAxisCount = 3;
                       final spacing = AppConstants.defaultPadding;
                       final availableWidth = constraints.maxWidth - (crossAxisCount - 1) * spacing;

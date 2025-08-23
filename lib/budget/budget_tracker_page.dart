@@ -1,13 +1,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-// ignore: unused_import
-import 'package:finance_analyzer/Budget/budget_tracker_page.dart' as animationController;
-// ignore: unused_import
-import 'package:finance_analyzer/Budget/budget_tracker_page.dart' as budgetController;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:fl_chart/fl_chart.dart';
+
 class BudgetTrackerPage extends StatefulWidget {
   const BudgetTrackerPage({super.key});
 
@@ -62,14 +59,72 @@ class _BudgetTrackerPageState extends State<BudgetTrackerPage> with SingleTicker
 
     String budgetKey = 'budget_${_selectedMonth.year}_${_selectedMonth.month.toString().padLeft(2, '0')}';
 
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .set({budgetKey: amount}, SetOptions(merge: true));
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Budget updated')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error updating budget: ${e.toString()}')),
+        );
+      }
+    }
+  }
+
+  Future<void> _resetBudget() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      return;
+    }
+
+    String budgetKey = 'budget_${_selectedMonth.year}_${_selectedMonth.month.toString().padLeft(2, '0')}';
+
+    // Show confirmation dialog
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Reset Budget'),
+        content: Text(
+          'Are you sure you want to reset the budget for ${_selectedMonth.year}-${_selectedMonth.month.toString().padLeft(2, '0')}?\n\n'
+          'This will remove the budget limit for this month.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Reset'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
-        .set({budgetKey: amount}, SetOptions(merge: true));
+        .update({budgetKey: FieldValue.delete()});
 
+    setState(() {
+      _budgetController.clear();
+    });
+if (mounted) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Budget updated')),
+      const SnackBar(content: Text('Budget reset successfully')),
     );
+}
   }
 
   Stream<QuerySnapshot> _getMonthlyExpenses(String userId) {
@@ -319,6 +374,21 @@ class _BudgetTrackerPageState extends State<BudgetTrackerPage> with SingleTicker
                                       ),
                                       child: const Text(
                                         "Save",
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600,color: Colors.white),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    ElevatedButton(
+                                      onPressed: _resetBudget,
+                                      style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18),
+                                        ),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                      child: const Text(
+                                        "Reset",
                                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600,color: Colors.white),
                                       ),
                                     )

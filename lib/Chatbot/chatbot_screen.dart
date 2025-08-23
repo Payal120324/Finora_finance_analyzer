@@ -44,7 +44,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> with SingleTickerProvider
     // }
 
     setState(() {
-      _messages.insert(0, ChatbotMessage(text: input, isUser: true, status: 'sent'));
+      _messages.insert(0, ChatbotMessage(text: input, isUser: true));
       _controller.clear();
       _isLoading = true;
     });
@@ -122,7 +122,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> with SingleTickerProvider
             gradient: msg.isUser ? userGradient : botGradient,
             boxShadow: [
               BoxShadow(
-                color: isDark ? Colors.black87 : Colors.black.withOpacity(0.15),
+                color: isDark ? Colors.black87 : Colors.black.withValues(alpha: 0.15),
                 blurRadius: 6,
                 offset: const Offset(3, 3),
               ),
@@ -287,7 +287,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> with SingleTickerProvider
             ),
           ),
           Container(
-            color: isDark ? Colors.black.withOpacity(0.5) : Colors.white.withOpacity(0.5),
+            color: isDark ? Colors.black.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.5),
           ),
           Column(
             children: [
@@ -317,7 +317,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> with SingleTickerProvider
                   color: isDark ? Colors.grey[850] : Colors.grey[100],
                   boxShadow: [
                     BoxShadow(
-                      color: isDark ? Colors.black87 : Colors.black.withOpacity(0.1),
+                      color: isDark ? Colors.black87 : Colors.black.withValues(alpha: 0.1),
                       blurRadius: 6,
                       offset: const Offset(0, -3),
                     ),
@@ -374,6 +374,8 @@ class TypingDots extends StatefulWidget {
   const TypingDots({super.key});
 
   @override
+  
+  // ignore: library_private_types_in_public_api
   _TypingDotsState createState() => _TypingDotsState();
 }
 

@@ -1,4 +1,4 @@
- // ignore_for_file: unused_field
+// ignore_for_file: unused_field, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -65,7 +65,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> with SingleTi
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
     );
-    if (picked != null) {
+    if (picked != null && mounted) {
       setState(() => _selectedDate = picked);
     }
   }
@@ -73,16 +73,20 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> with SingleTi
   void _submitExpense() async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("User not logged in")),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("User not logged in")),
+        );
+      }
       return;
     }
     final amount = double.tryParse(_amountController.text);
     if (_selectedCategory == null || amount == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Enter category and valid amount")),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Enter category and valid amount")),
+        );
+      }
       return;
     }
 
@@ -94,31 +98,33 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> with SingleTi
       date: _selectedDate,
     );
 
-    if (result == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Expense added successfully")),
-      );
-      setState(() {
-        _amountController.clear();
-        _noteController.clear();
-        _selectedCategory = null;
-        _selectedDate = DateTime.now();
-      });
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: $result")),
-      );
+    if (mounted) {
+      if (result == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Expense added successfully")),
+        );
+        setState(() {
+          _amountController.clear();
+          _noteController.clear();
+          _selectedCategory = null;
+          _selectedDate = DateTime.now();
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: $result")),
+        );
+      }
     }
   }
 
   Widget _buildCategoryIcon(Map<String, dynamic> cat) {
     return Container(
       decoration: BoxDecoration(
-        color: (cat['color'] as Color).withOpacity(0.25),
+        color: (cat['color'] as Color).withValues(alpha: 0.25),
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: (cat['color'] as Color).withOpacity(0.4),
+            color: (cat['color'] as Color).withValues(alpha: 0.4),
             blurRadius: 6,
             offset: const Offset(0, 3),
           ),
@@ -138,7 +144,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> with SingleTi
         title: const Text('Add Expense'),
         backgroundColor: Colors.purple,
         elevation: 8,
-        shadowColor: Colors.purpleAccent.withOpacity(0.6),
+        shadowColor: Colors.purpleAccent.withValues(alpha: 0.6),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -190,7 +196,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> with SingleTi
                             ),
                           ),
                           margin: EdgeInsets.only(bottom: verticalPadding),
-                          shadowColor: Colors.deepPurpleAccent.withOpacity(0.3),
+                          shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.3),
                           child: Padding(
                             padding: EdgeInsets.all(verticalPadding),
                             child: Column(
@@ -278,7 +284,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> with SingleTi
                                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                                     textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                     elevation: 8,
-                                    shadowColor: Colors.deepPurpleAccent.withOpacity(0.7),
+                                    shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.7),
                                   ),
                                   child: const Text('Add Expense'),
                                 ),
@@ -301,7 +307,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> with SingleTi
                                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                                         textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                         elevation: 8,
-                                        shadowColor: Colors.deepPurpleAccent.withOpacity(0.7),
+                                        shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.7),
                                       ),
                                     ),
                                   ],
@@ -326,7 +332,7 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> with SingleTi
                                 width: 1.5,
                               ),
                             ),
-                            shadowColor: Colors.deepPurpleAccent.withOpacity(0.3),
+                            shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.3),
                             child: Padding(
                               padding: const EdgeInsets.all(18),
                               child: Column(
@@ -398,15 +404,15 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> with SingleTi
                                                 borderRadius: BorderRadius.circular(24),
                                               ),
                                               elevation: 10,
-                                              shadowColor: Colors.deepPurpleAccent.withOpacity(0.4),
+                                              shadowColor: Colors.deepPurpleAccent.withValues(alpha: 0.4),
                                               child: ListTile(
                                                 leading: Container(
                                                   decoration: BoxDecoration(
-                                                    color: (categoryData['color'] as Color).withOpacity(0.4),
+                                                    color: (categoryData['color'] as Color).withValues(alpha: 0.4),
                                                     shape: BoxShape.circle,
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: (categoryData['color'] as Color).withOpacity(0.5),
+                                                        color: (categoryData['color'] as Color).withValues(alpha: 0.5),
                                                         blurRadius: 8,
                                                         offset: const Offset(0, 4),
                                                       ),
@@ -436,38 +442,42 @@ class _ExpenseCategoryPageState extends State<ExpenseCategoryPage> with SingleTi
                                                   onPressed: () async {
                                                     final userId = FirebaseAuth.instance.currentUser?.uid;
                                                     if (userId == null) {
-                                                      ScaffoldMessenger.of(context).showSnackBar(
-                                                        const SnackBar(content: Text("User not logged in")),
-                                                      );
+                                                      if (mounted) {
+                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                          const SnackBar(content: Text("User not logged in")),
+                                                        );
+                                                      }
                                                       return;
                                                     }
                                                     final confirm = await showDialog<bool>(
                                                       context: context,
-                                                      builder: (context) => AlertDialog(
+                                                      builder: (dialogContext) => AlertDialog(
                                                         title: const Text('Confirm Delete'),
                                                         content: const Text('Are you sure you want to delete this expense?'),
                                                         actions: [
                                                           TextButton(
-                                                            onPressed: () => Navigator.of(context).pop(false),
+                                                            onPressed: () => Navigator.of(dialogContext).pop(false),
                                                             child: const Text('Cancel'),
                                                           ),
                                                           TextButton(
-                                                            onPressed: () => Navigator.of(context).pop(true),
+                                                            onPressed: () => Navigator.of(dialogContext).pop(true),
                                                             child: const Text('Delete'),
                                                           ),
                                                         ],
                                                       ),
                                                     );
-                                                    if (confirm == true) {
+                                                    if (confirm == true && mounted) {
                                                       final error = await ExpenseService.deleteExpense(userId, expense.id);
-                                                      if (error != null) {
-                                                        ScaffoldMessenger.of(context).showSnackBar(
-                                                          SnackBar(content: Text('Error deleting expense: $error')),
-                                                        );
-                                                      } else {
-                                                        ScaffoldMessenger.of(context).showSnackBar(
-                                                          const SnackBar(content: Text('Expense deleted successfully')),
-                                                        );
+                                                      if (mounted) {
+                                                        if (error != null) {
+                                                          ScaffoldMessenger.of(context).showSnackBar(
+                                                            SnackBar(content: Text('Error deleting expense: $error')),
+                                                          );
+                                                        } else {
+                                                          ScaffoldMessenger.of(context).showSnackBar(
+                                                            const SnackBar(content: Text('Expense deleted successfully')),
+                                                          );
+                                                        }
                                                       }
                                                     }
                                                   },

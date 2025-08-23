@@ -13,6 +13,8 @@ class AuthService {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       errorMessage = null;
+      
+     
       return true;
     } on FirebaseAuthException catch (e) {
       errorMessage = e.message;
@@ -24,6 +26,8 @@ class AuthService {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
       errorMessage = null;
+  
+      
       return true;
     } on FirebaseAuthException catch (e) {
       errorMessage = e.message;
@@ -54,4 +58,5 @@ class AuthService {
       return false;
     }
   }
+
 }
