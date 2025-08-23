@@ -160,6 +160,7 @@ Challenge(
   }
 
   /// Check badge unlock status using BadgeService
+  // ignore: unused_element
   Future<bool> _checkBadgeUnlockStatus(String badgeId) async {
     final badgeService = BadgeService();
     return await badgeService.isBadgeUnlocked(badgeId);

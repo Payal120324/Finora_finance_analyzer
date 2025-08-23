@@ -194,6 +194,7 @@ class _ChallengeDashboardScreenState extends State<ChallengeDashboardScreen> {
     );
   }
 
+  // ignore: unused_element
   Color _getCategoryColor(String category) {
     switch (category) {
       case 'Budgeting':

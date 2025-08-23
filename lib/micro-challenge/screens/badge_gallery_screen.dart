@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart'; 
-import 'package:shared_preferences/shared_preferences.dart';
 import '../services/user_session_service.dart';
 import '../widgets/tip_card_widget.dart';
 import 'package:lottie/lottie.dart';
@@ -15,6 +14,7 @@ class BadgeGalleryScreen extends StatefulWidget {
 }
 
 class _BadgeGalleryScreenState extends State<BadgeGalleryScreen> {
+  // ignore: unused_field
   final ChallengeService _challengeService = ChallengeService();
   final BadgeService _badgeService = BadgeService();
   final UserSessionService _userSessionService = UserSessionService();
@@ -23,6 +23,8 @@ class _BadgeGalleryScreenState extends State<BadgeGalleryScreen> {
   bool _showTipCard = false;
 
   @override
+/*************  ✨ Windsurf Command ⭐  *************/
+/*******  060b8d08-4502-46db-8a30-d20fa3c0d1fe  *******/
   void initState() {
     super.initState();
     _loadBadges();
