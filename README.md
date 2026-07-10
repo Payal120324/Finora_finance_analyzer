@@ -10,10 +10,10 @@ Finora is a Flutter-based personal finance management application designed to he
 - 📅 Budget creation and tracking
 - 🎯 Savings goal management
 - 🧾 Bill management and reminders
-- 📄 Export financial reports as PDF and Excel
 - ☁️ Real-time data synchronization using Cloud Firestore
 - 📱 Responsive and user-friendly interface
-
+- 🏆 Financial challenges with progress tracking
+- 🎖️ Achievement badges and Karma points
 ---
 
 ## 🛠️ Tech Stack
