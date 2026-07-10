@@ -133,10 +133,10 @@ This project helped strengthen my understanding of:
 
 ## 📸 Screenshots
 
-<img width="1080" height="2300" alt="1000170216" src="https://github.com/user-attachments/assets/465fb5c4-4e23-4e54-afdd-e469c9ddc70a" />
-<img width="1080" height="2323" alt="1000170222" src="https://github.com/user-attachments/assets/c10907c1-1c2a-41df-bee0-4a3377ba16ee" />
-<img width="1080" height="2305" alt="1000170218" src="https://github.com/user-attachments/assets/032f6234-b731-42d4-9e4d-c132b11f5da3" />
-<img width="1080" height="2320" alt="1000170224" src="https://github.com/user-attachments/assets/f7399102-c4c8-4775-8df6-d1b621fd2450" />
+<img width="360" height="767" alt="1000170216" src="https://github.com/user-attachments/assets/465fb5c4-4e23-4e54-afdd-e469c9ddc70a" />
+<img width="360" height="767" alt="1000170222" src="https://github.com/user-attachments/assets/c10907c1-1c2a-41df-bee0-4a3377ba16ee" />
+<img width="360" height="767" alt="1000170218" src="https://github.com/user-attachments/assets/032f6234-b731-42d4-9e4d-c132b11f5da3" />
+<img width="360" height="767" alt="1000170224" src="https://github.com/user-attachments/assets/f7399102-c4c8-4775-8df6-d1b621fd2450" />
 
 
 ## 🔮 Future Enhancements
